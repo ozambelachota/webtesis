@@ -1,27 +1,50 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { collection } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { useEffect } from "react";
 import { create } from "zustand";
 import { db } from "../firebase/firebase";
 
-
-export const btnStore = create((set) => ({
+export const tesistaStore = create((set) => ({
   type: false,
+  tesista: {
+    nombre: "",
+    apellido: "",
+    dni: "",
+    celular: "",
+    email: "",
+  },
   setType: (type) => set({ type }),
+  setTesista: (tesista) => set({ tesista }),
 }));
 
 const FormTesista = () => {
-  const btnDisable = btnStore((state) => state.type);
-  const btnSet = btnStore((state) => state.setType);
+  const btnDisable = tesistaStore((state) => state.type);
+  const btnSet = tesistaStore((state) => state.setType);
   let type = "inactive";
-
-
-  
+  const setTesista = tesistaStore((state) => state.setTesista);
+  const tesista = tesistaStore((state) => state.tesista);
+  const handleSaveTesista = async (event) => {
+    event.preventDefault();
+    const formData = {
+      nombre: event.target.nombre.value,
+      apellido: event.target.apellido.value,
+      dni: event.target.dni.value,
+      celular: event.target.celular.value,
+      email: event.target.email.value,
+    };
+    setTesista(formData);
+    console.log(formData);
+    try {
+      const docRef = addDoc(collection(db, "tesistas"), formData);
+      console.log((await docRef).id);
+    } catch (error) {
+      console.error(error);
+    }
+    type = "inactive";
+  };
   useEffect(() => {
     btnSet(type);
-  }, [type]);
-
-
+  }, [type, tesista]);
 
   return (
     <div className="mt-4">
@@ -31,7 +54,7 @@ const FormTesista = () => {
             <h1>Form Tesista</h1>
           </div>
           <div className="card-body">
-            <form>
+            <form onSubmit={(event) => handleSaveTesista(event)}>
               <label htmlFor="nombre" className="form-label">
                 Nombre(s)
               </label>
