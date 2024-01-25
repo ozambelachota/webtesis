@@ -1,10 +1,10 @@
-import {create} from 'zustand'
+import { create } from "zustand";
 
 export const useUserStore = create((set) => ({
   user: {
-    name: '',
-    email: '',
-    photo: '',
+    username: "",
+    email: "",
+    photo: "",
   },
-  setUser: (user) => set({user}),
-}))
+  setUser: (user) => set({ user }),
+}));

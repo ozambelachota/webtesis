@@ -4,7 +4,7 @@ import { useUserStore } from "../store/useUserStore";
 function Navbar() {
   const user = useUserStore((state) => state.u);
   return (
-    <div className="sidebar d-flex flex-column flex-shrink-0 p-3">
+    <div className="sidebar  d-flex flex-column flex-shrink-0 p-3">
       <a
         href="/"
         className="d-flex align-items-center my-4  me-md-auto text-white text-decoration-none"
@@ -14,31 +14,21 @@ function Navbar() {
 
       <ul className="nav nav-pills flex-column mb-auto gap-2">
         <li className="nav-item">
-          <Link to="/revisar" className="nav-link active" aria-current="page">
-            REVISAR
+          <Link to="/solicitud" className="nav-link active" aria-current="page">
+            Soliciud
           </Link>
         </li>
         <li>
-          <Link to="/notificacion" className="nav-link text-white">
-            NOTIFICACIONES
-          </Link>
-        </li>
-        <li>
-          <Link to="/reporte" className="nav-link text-white">
-            REPORTESGT
-          </Link>
-        </li>
-        <li>
-          <Link to="/manual" className="nav-link text-white">
-            MANUAL
+          <Link to="/seguimiento" className="nav-link text-white">
+            Seguimiento
           </Link>
         </li>
       </ul>
 
       <div className="">
-        <Link to="#" className="d-flex align-items-center text-white ">
+        <Link to="/" className="d-flex align-items-center text-white ">
           <img
-            src={user.photo}
+            src={""}
             alt=""
             width="32"
             height="32"

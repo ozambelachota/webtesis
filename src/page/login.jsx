@@ -1,31 +1,34 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { auth } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../store/useUserStore";
+import { auth } from "../firebase/firebase";
+import {useUserStore} from './../store/useUserStore'
+
 const Login = () => {
-  const handleLogin = async () => {
+  const handleLogin = async (event) => {
+    event.preventDefault();
     const googleProvider = new GoogleAuthProvider();
     await signInWithGoogle(googleProvider);
   };
-  const setUer = useUserStore((state) => state.setUser);
-
+  useUserStore()
   const navigate = useNavigate();
 
+  const {user, setUser}  = useUserStore();
+
+  useEffect(() => {}, [user]);
   const signInWithGoogle = async (googleProvider) => {
     try {
       const res = await signInWithPopup(auth, googleProvider);
-    if(res){
-      setUer({
-        name: res.user.displayName,
-        email: res.user.email,
-        photo: res.user.photoURL,
-      });
-      navigate("/admin");
-    }
-    
+      if (res) {
+        setUser({
+          name: res.user.displayName,
+          email: res.user.email,
+          photo: res.user.photoURL,
+        });
+        navigate("/usuario");
+      }
     } catch (error) {
       console.error(error);
     }
